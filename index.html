@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Todoアプリ</title>
+</head>
+
+<body>
+  <h1>Todoアプリ</h1>
+  <div>
+    <p>@takepon_it</p>
+    <h2>Todoリスト</h2>
+    <input type="radio" name="sel" value="a">全て
+    <input type="radio" name="sel" value="a">作業中
+    <input type="radio" name="sel" value="a">完了
+    <p>id　コメント　状態</p　font-size="40px">
+    <ul id="list"></ul>
+
+    <label>Todoタスクの入力 : </label>
+    <input id="task" type="text">
+    <button id="add">追加</button>
+  </div>
+
+
+
+  <script>
+    // 入力したTodoタスクを格納するための配列
+    const todos = [];
+    const tasks = document.getElementById('task');
+    const add = document.getElementById('add');
+    const list = document.getElementById('list');
+
+    //追加クリックされた時の処理
+    add.addEventListener('click', (event) => {
+      const todo = tasks.value;
+        todos.push(todo);
+        task();
+    });
+
+    //タスク表示関数
+    function task() {
+      // ul要素内を空っぽにして再度表示する処理
+      while (list.firstChild) {
+        list.removeChild(list.firstChild);
+      }
+
+      // todosの情報を使ってTodoリストを作成
+      todos.forEach((todo, index) => {
+        const todoItem = document.createElement('li');
+        const tasknum = index + 1;
+
+        //タスクをセット
+        todoItem.textContent = `${tasknum} : ${todo}`;
+        list.appendChild(todoItem);
+
+        //タスク表示と同時にボタン作成
+        const deleteButton = document.createElement('button');
+        const doneButton = document.createElement('button');
+        deleteButton.textContent = '削除';
+        doneButton.textContent = '作業中';
+        //削除ボタン押した時の処理
+        deleteButton.addEventListener('click', (event) => {
+          deleteTodo(index);
+        });
+        //作業中ボタン押した時の処理
+        doneButton.addEventListener('click', (event) => {
+          doneTodo(index);
+        });
+        list.appendChild(deleteButton);
+        list.appendChild(doneButton);
+      });
+
+
+    }
+
+    //削除関数
+    function deleteTodo(index) {
+      //spliceで特定の要素を削除
+      todos.splice(index, 1);
+      task();
+    }
+
+    //更新関数
+    function doneTodo(index) {
+      // 開発中機能
+      // document.querySelector('doneButton');
+      // doneButton.textContent = '作業中';
+    }
+  </script>
+</body>
+
+</html>
